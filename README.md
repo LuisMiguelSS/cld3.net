@@ -4,10 +4,6 @@ Compact language detector v3 by Google for .Net
 in upstream google CLD3 https://github.com/google/cld3
 <br>
 thanks ezra100 for library https://gist.github.com/ezra100/ba69ec42600b2baa7430dd53bec3f37c
-<p>
-<br>
-To solve issue with angle-brackets in headers extract google.zip (headers) to 
-C:\Program Files (x86)\Microsoft Visual Studio\2019\%VSversion%\VC\Tools\MSVC\%msvcversion%\include
 <br>
 by default project configured for VS2019 .net 4.6.1
 
