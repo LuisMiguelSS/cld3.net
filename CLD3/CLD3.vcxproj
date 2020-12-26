@@ -76,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\NikulovE\source\repos\cld3.net\src\google;C:\Users\NikulovE\source\repos\cld3.net\third_party;C:\Users\NikulovE\source\repos\cld3.net\src\libcld3\cld_3\protos;C:\Users\NikulovE\source\repos\cld3.net\src\libcld3\script_span;C:\Users\NikulovE\source\repos\cld3.net\src\libcld3;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
