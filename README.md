@@ -1,11 +1,10 @@
 # cld3.net
-Compact language detector v3 by Google for .Net
+Compact language detector v3 by Google for .NET 5.0
 <br>
 in upstream google CLD3 https://github.com/google/cld3
 <br>
 thanks ezra100 for library https://gist.github.com/ezra100/ba69ec42600b2baa7430dd53bec3f37c
 <br>
-by default project configured for VS2019 .net 4.6.1
 
 Detect for 3 possible languages:
 ```csharp
