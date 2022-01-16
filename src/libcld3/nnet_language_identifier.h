@@ -46,7 +46,7 @@ class NNetLanguageIdentifier {
  public:
   // Information about a predicted language.
   struct Result {
-    string language = kUnknown;
+    string languageCode = unknownLanguageCode;
     float probability = 0.0;   // Language probability.
     bool is_reliable = false;  // Whether the prediction is reliable.
 
@@ -79,7 +79,7 @@ class NNetLanguageIdentifier {
   std::vector<Result> FindTopNMostFreqLangs(const string &text, int num_langs);
 
   // String returned when a language is unknown or prediction cannot be made.
-  static const char kUnknown[];
+  static const char unknownLanguageCode[];
 
   // Min number of bytes needed to make a prediction if the default constructor
   // is called.

@@ -34,13 +34,13 @@ void TaskContextParams::ToTaskContext(TaskContext *context) {
 
 int TaskContextParams::GetNumLanguages() {
   int i = 0;
-  while (kLanguageNames[i] != nullptr) {
+  while (languageCodes[i] != nullptr) {
     i++;
   }
   return i;
 }
 
-const char *const TaskContextParams::kLanguageNames[] = {
+const char *const TaskContextParams::languageCodes[] = {
     "eo", "co", "eu", "ta", "de", "mt", "ps", "te", "su", "uz", "zh-Latn", "ne",
     "nl", "sw", "sq", "hmn", "ja", "no", "mn", "so", "ko", "kk", "sl", "ig",
     "mr", "th", "zu", "ml", "hr", "bs", "lo", "sd", "cy", "hy", "uk", "pt",

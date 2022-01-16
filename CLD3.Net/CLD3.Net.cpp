@@ -1,81 +1,33 @@
 #include "CLD3.Net.h"
-#include "Resource.h"
-
 #include <string>
+#include <iostream>
 
-System::String ^ CLD3Net::LanguageDetector::DetectLanguage( System::String ^ text )
+CLD3Net::RecognizedResult^ CLD3Net::LanguageDetector::DetectLanguage(System::String^ text)
 {
 	auto bytes = Encoding::UTF8->GetBytes( text );
 	pin_ptr<Byte> pinnedBytes = &bytes[0];
 	auto x = reinterpret_cast<char *>(pinnedBytes);
 	std::string utf8NativeString( x );
 	Result result = findLanguage( utf8NativeString );
-	std::string language = result.language;
-	std::string jsonOut = "";
-	jsonOut = jsonOut
-		.append( "{\"language\":\"" )
-		.append( codeToLangName[result.language] )
-		.append( "\",\"probability\":" )
-		.append( std::to_string( result.probability ) )
-		.append( ",\"is_reliable\":" )
-		.append( std::to_string( result.is_reliable ) )
-		.append( ",\"proportion\":" )
-		.append( std::to_string( result.proportion ) )
-		.append( "}" );
 
-	return gcnew System::String( jsonOut.c_str() );
+	return gcnew RecognizedResult(result);
 }
 
-System::String ^ CLD3Net::LanguageDetector::DetectNMostFreqLangs( System::String ^ text, int numberOfLangs )
+List<CLD3Net::RecognizedResult^>^ CLD3Net::LanguageDetector::DetectNMostFreqLangs(System::String^ text, int numberOfLangs)
 {
 	auto bytes = Encoding::UTF8->GetBytes( text );
 	pin_ptr<Byte> pinnedBytes = &bytes[0];
 	auto x = reinterpret_cast<char *>(pinnedBytes);
 	std::string utf8NativeString( x );
-	std::string jsonOut = "";
-	if (numberOfLangs > 0) {
-		if (numberOfLangs == 1) {
-			Result result = findLanguage( utf8NativeString );
-			std::string language = result.language;
+	auto languages = findTopNMostFreqLangs(utf8NativeString, numberOfLangs);
+	List<CLD3Net::RecognizedResult^>^ recognizedLanguages = gcnew List<CLD3Net::RecognizedResult^>();
 
-			jsonOut = jsonOut
-				.append( "{\"language\":\"" )
-				.append( codeToLangName[result.language] )
-				.append( "\",\"probability\":" )
-				.append( std::to_string( result.probability ) )
-				.append( ",\"is_reliable\":" )
-				.append( std::to_string( result.is_reliable ) )
-				.append( ",\"proportion\":" )
-				.append( std::to_string( result.proportion ) )
-				.append( "}" );
-
-			return gcnew System::String( jsonOut.c_str() );
-		}
-		else {
-			auto languages = findTopNMostFreqLangs( utf8NativeString, numberOfLangs );
-			jsonOut = jsonOut.append( "[" );
-			for (int i = 0; i < numberOfLangs; i++) {
-				auto result = languages[i];
-				std::string language = result.language;
-				jsonOut = jsonOut
-					.append( "{\"language\":\"" )
-					.append( codeToLangName[result.language] )
-					.append( "\",\"probability\":" )
-					.append( std::to_string( result.probability ) )
-					.append( ",\"is_reliable\":" )
-					.append( std::to_string( result.is_reliable ) )
-					.append( ",\"proportion\":" )
-					.append( std::to_string( result.proportion ) )
-					.append( "}," );
-			}
-
-			jsonOut.pop_back();
-			jsonOut = jsonOut.append( "]" );
-			return gcnew System::String( jsonOut.c_str() );
-		}
+	for (int i = 0; i < numberOfLangs; i++)
+	{
+		recognizedLanguages->Add(
+			gcnew CLD3Net::RecognizedResult(languages[i])
+		);
 	}
-	else {
-		jsonOut = jsonOut.append( "{}" );
-		return gcnew System::String( jsonOut.c_str() );
-	}
+
+	return recognizedLanguages;
 }

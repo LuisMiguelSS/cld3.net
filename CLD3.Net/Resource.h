@@ -13,26 +13,24 @@
 //#define WSTRING string
 //#define WCHAR char
 //#endif
+std::string langCodeFromName(std::string name);
 
+using namespace System;
 using namespace std;
-namespace chrome_lang_id {
-	namespace NNetLanguageIdentifier {
-
+namespace chrome_lang_id
+{
+	namespace NNetLanguageIdentifier
+	{
 		struct Result {
-			string language;
+			string languageCode;
 			float probability = 0.0;  // Language probability.
 			bool is_reliable = false; // Whether the prediction is reliable.
 
 			// Proportion of bytes associated with the language. If FindLanguage
 			// is called, this variable is set to 1.
 			float proportion = 0.0;
-			// Result(PointerResult pResult){
-			//     this->language = std::string(pResult.language);
-			//     this->probability = pResult.probability;
-			//     this->proportion = pResult.proportion;
-			//     this->is_reliable = pResult.is_reliable;
-			// }
 		};
+
 	} // namespace NNetLanguageIdentifier
 } // namespace chrome_lang_id
 using namespace chrome_lang_id::NNetLanguageIdentifier;
@@ -49,7 +47,6 @@ IMPORT void setMinMaxBytes(int min, int max);
 IMPORT NNetLanguageIdentifier::Result* findTopNMostFreqLangs(const string& text, int numberOfLangs);
 IMPORT void findTopNMostFreqLangs(const string& text,int numberOfLangs, NNetLanguageIdentifier::Result*);
 IMPORT Result findLanguage(const string& text);
-
 
 map<std::string, std::string> codeToLangName{
 	{"ab", "Abkhazian"},
@@ -226,3 +223,29 @@ map<std::string, std::string> codeToLangName{
 	{"zu", "Zulu"} ,
 	{"und", "Undefined Language"}
 };
+
+std::string langCodeFromName(std::string name)
+{
+	for (auto it = codeToLangName.begin(); it != codeToLangName.end(); it++)
+	{
+		if (it->second == name)
+		{
+			return it->first;
+		}
+	}
+
+	return "und";
+}
+
+std::string langNameFromCode(std::string code)
+{
+	for (auto it = codeToLangName.begin(); it != codeToLangName.end(); it++)
+	{
+		if (it->first == code)
+		{
+			return it->second;
+		}
+	}
+
+	return "Undefined Language";
+}

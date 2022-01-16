@@ -93,7 +93,7 @@ const int NNetLanguageIdentifier::kMinNumBytesToConsider = 10;
 const int NNetLanguageIdentifier::kMaxNumBytesToConsider = 700;
 const int NNetLanguageIdentifier::kMaxNumInputBytesToConsider = 4000;
 const int NNetLanguageIdentifier::kNumSnippets = 5;
-const char NNetLanguageIdentifier::kUnknown[] = "und";
+const char NNetLanguageIdentifier::unknownLanguageCode[] = "und";
 const float NNetLanguageIdentifier::kReliabilityThreshold = 0.7f;
 const float NNetLanguageIdentifier::kReliabilityHrBsThreshold = 0.5f;
 
@@ -255,8 +255,8 @@ NNetLanguageIdentifier::Result NNetLanguageIdentifier::FindLanguageOfValidUTF8(
   const float log_sum_exp = max_val + log(diff_sum);
   result.probability = exp(max_val - log_sum_exp);
 
-  result.language = GetLanguageName(prediction_id);
-  result.is_reliable = ResultIsReliable(result.language, result.probability);
+  result.languageCode = GetLanguageName(prediction_id);
+  result.is_reliable = ResultIsReliable(result.languageCode, result.probability);
   result.proportion = 1.0;
   return result;
 }
@@ -299,7 +299,7 @@ NNetLanguageIdentifier::FindTopNMostFreqLangs(const string &text,
 
     const string selected_text = SelectTextGivenScriptSpan(script_span);
     result = FindLanguageOfValidUTF8(selected_text);
-    language = result.language;
+    language = result.languageCode;
     lang_stats[language].byte_sum += num_original_span_bytes;
     lang_stats[language].prob_sum +=
         result.probability * num_original_span_bytes;
@@ -325,7 +325,7 @@ NNetLanguageIdentifier::FindTopNMostFreqLangs(const string &text,
     Result result;
     const string &language = langs_and_byte_counts.at(indx).first;
     const LangChunksStats &stats = lang_stats.at(language);
-    result.language = language;
+    result.languageCode = language;
     result.probability = stats.prob_sum / stats.byte_sum;
     result.proportion = stats.byte_sum / byte_sum;
     result.is_reliable = ResultIsReliable(language, result.probability);

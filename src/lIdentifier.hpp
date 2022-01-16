@@ -19,7 +19,7 @@ namespace chrome_lang_id {
 	namespace NNetLanguageIdentifier {
 
 		struct Result {
-			string language;
+			string languageCode;
 			float probability = 0.0;  // Language probability.
 			bool is_reliable = false; // Whether the prediction is reliable.
 

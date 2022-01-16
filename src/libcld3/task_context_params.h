@@ -28,7 +28,7 @@ namespace chrome_lang_id {
 class TaskContextParams {
  public:
   // Gets the name of the i'th language.
-  static const char *language_names(int i) { return kLanguageNames[i]; }
+  static const char *language_names(int i) { return languageCodes[i]; }
 
   // Saves the parameters to the given TaskContext.
   static void ToTaskContext(TaskContext *context);
@@ -38,7 +38,7 @@ class TaskContextParams {
 
  private:
   // Names of all the languages.
-  static const char *const kLanguageNames[];
+  static const char *const languageCodes[];
 
   // Features in FML format.
   static const char kLanguageIdentifierFeatures[];
